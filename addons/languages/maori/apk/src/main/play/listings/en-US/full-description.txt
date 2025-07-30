@@ -1,0 +1,10 @@
+Maori Language pack
+
+Features:
+
+Maori dictionary based on ???
+
+Include one keyboard layouts: QWERTY, with macrons
+
+This is an expansion language pack for AnySoftKeyboard.
+Install AnySoftKeyboard first, and then select the Maori keyboard from AnySoftKeyboard Settings -> Languages -> Keyboards menu.

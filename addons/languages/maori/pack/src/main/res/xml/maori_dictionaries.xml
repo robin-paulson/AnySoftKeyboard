@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dictionaries>
+    <Dictionary
+        autoTextResourceId="@xml/maori_autotext"
+        description="Created by Robin Paulson"
+        dictionaryResourceId="@array/maori_words_dict_array"
+        id="1d631295-4c9b-4940-a34e-1fb16608d3d8"
+        locale="mi"
+        nameResId="@string/maori_dictionary_name"
+        type="binary_resource" />
+
+</Dictionaries>
