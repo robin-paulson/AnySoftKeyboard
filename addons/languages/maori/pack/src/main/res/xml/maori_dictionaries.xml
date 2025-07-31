@@ -8,5 +8,4 @@
         locale="mi"
         nameResId="@string/maori_dictionary_name"
         type="binary_resource" />
-
 </Dictionaries>

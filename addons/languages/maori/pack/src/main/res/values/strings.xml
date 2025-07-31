@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="maori_dictionary_name">Maori</string>
-    <string name="keyboard_azerty_name">QWERTY</string>
-    <string name="keyboard_azerty_description">Maori keyboard - QWERTY layout</string>
+    <string name="maori_dictionary_name">Māori</string>
+    <string name="keyboard_qwerty_name">QWERTY</string>
+    <string name="keyboard_qwerty_description">Māori keyboard - QWERTY layout</string>
 </resources>
