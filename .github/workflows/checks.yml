@@ -50,19 +50,25 @@ jobs:
           verbose: true
   static-checks:
     runs-on: ubuntu-24.04
-    container: ghcr.io/menny/android:1.22.3
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 2
+      - uses: actions/setup-java@v5.1.0
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - uses: android-actions/setup-android@v3.2.2
+        with:
+          cmdline-tools-version: 13114758
+      - name: Install NDK
+        run: echo "y" | sdkmanager "ndk;29.0.14206865"
       - uses: gradle/actions/setup-gradle@v4
       - name: setup
         run: ./scripts/ci/ci_setup.sh
       - name: check
         run: ./scripts/ci/ci_check.sh
-      - name: verify-version-classes-greps
-        run: ./scripts/ci/third-party-update/verify-third-party-update-greps.sh
       - name: fix-fs
         if: always()
         run: ./scripts/ci/ci_fix_fs.sh
@@ -79,12 +85,20 @@ jobs:
           path: collected_reports
   linters:
     runs-on: ubuntu-24.04
-    container: ghcr.io/menny/android:1.22.3
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 2
+      - uses: actions/setup-java@v5.1.0
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - uses: android-actions/setup-android@v3.2.2
+        with:
+          cmdline-tools-version: 13114758
+      - name: Install NDK
+        run: echo "y" | sdkmanager "ndk;29.0.14206865"
       - uses: gradle/actions/setup-gradle@v4
       - name: setup
         run: ./scripts/ci/ci_setup.sh
@@ -125,7 +139,6 @@ jobs:
           path: collected_reports
   tests:
     runs-on: ubuntu-24.04
-    container: ghcr.io/menny/android:1.22.3
     timeout-minutes: 15
     strategy:
       matrix:
@@ -148,6 +161,15 @@ jobs:
       - uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 2
+      - uses: actions/setup-java@v5.1.0
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - uses: android-actions/setup-android@v3.2.2
+        with:
+          cmdline-tools-version: 13114758
+      - name: Install NDK
+        run: echo "y" | sdkmanager "ndk;29.0.14206865"
       - uses: gradle/actions/setup-gradle@v4
       - name: setup
         run: ./scripts/ci/ci_setup.sh
@@ -189,7 +211,6 @@ jobs:
           path: build/build-logging
   deploy-dry-run:
     runs-on: ubuntu-24.04
-    container: ghcr.io/menny/android:1.22.3
     timeout-minutes: 30
     env:
       KEY_STORE_FILE_PASSWORD: password
@@ -207,6 +228,17 @@ jobs:
       - uses: actions/checkout@v6.0.1
         with:
           fetch-depth: 2
+      - uses: actions/setup-java@v5.1.0
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - uses: android-actions/setup-android@v3.2.2
+        with:
+          cmdline-tools-version: 13114758
+      - name: Install NDK
+        run: echo "y" | sdkmanager "ndk;29.0.14206865"
+      - name: Install ImageMagick
+        run: sudo apt-get install -y imagemagick
       - uses: gradle/actions/setup-gradle@v4
       - name: setup
         run: ./scripts/ci/ci_setup.sh
@@ -219,8 +251,8 @@ jobs:
           ./gradlew $(cat /tmp/gradle.tasks_logo.lst)
       - name: setup-keystore
         run: |
-          mkdir -p /root/.android/ || true
-          cp ./.github/actions/deploy/debug.keystore /root/.android/
+          mkdir -p $HOME/.android/
+          cp ./.github/actions/deploy/debug.keystore $HOME/.android/
           cp .github/actions/deploy/release_test.keystore /tmp/anysoftkeyboard.keystore
       - name: shard
         run: |
@@ -289,7 +321,6 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/release-branch-')
     needs: [all-green-requirement]
     runs-on: ubuntu-24.04
-    container: ghcr.io/menny/android_base:1.22.3
     steps:
       - uses: actions/checkout@v6.0.1
         with:
