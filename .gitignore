@@ -1,5 +1,6 @@
 build/
 .gradle/
+.kotlin/
 /.idea/
 .DS_Store
 *.iml
@@ -53,3 +54,9 @@ node_modules
 
 # personal scratch work area
 scratch/
+
+# vscode plugins ignores
+.metals/
+buildSrc/.metals/
+.kotlin/
+buildSrc/.kotlin/

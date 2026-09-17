@@ -2,7 +2,7 @@ apply plugin: 'jacoco'
 
 jacoco {
     // https://bintray.com/bintray/jcenter/org.jacoco:org.jacoco.core
-    toolVersion = "0.8.14"
+    toolVersion = "0.8.15"
 }
 
 if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')) {
@@ -26,17 +26,20 @@ if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasP
     }
 }
 
-project.afterEvaluate {
-
-    if (project.plugins.hasPlugin('com.android.application')) {
-        android.applicationVariants.all { variant ->
+plugins.withId('com.android.application') {
+    androidComponents.onVariants(androidComponents.selector().all()) { variant ->
+        if (variant.unitTest != null) {
             def name = variant.name
             def testTaskName = "test${name.capitalize()}UnitTest"
 
             createJacocoReportTask(testTaskName, name)
         }
-    } else if (project.plugins.hasPlugin('com.android.library')) {
-        android.libraryVariants.all { variant ->
+    }
+}
+
+plugins.withId('com.android.library') {
+    androidComponents.onVariants(androidComponents.selector().all()) { variant ->
+        if (variant.unitTest != null) {
             def name = variant.name
             def testTaskName = "test${name.capitalize()}UnitTest"
 
